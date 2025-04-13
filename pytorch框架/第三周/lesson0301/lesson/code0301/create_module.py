@@ -14,8 +14,8 @@ from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 import torch.optim as optim
 from matplotlib import pyplot as plt
-from model.lenet import LeNet
-from tools.my_dataset import RMBDataset
+from lesson0301.model.lenet import LeNet
+from lesson0301.tools.my_dataset import RMBDataset
 
 
 def set_seed(seed=1):
