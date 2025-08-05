@@ -1,4 +1,3 @@
-import numpy as np
 import torch
 
 t1 = torch.arange(1, 11)
