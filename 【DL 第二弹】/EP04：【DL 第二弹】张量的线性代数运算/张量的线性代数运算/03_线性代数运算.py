@@ -31,7 +31,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 plt.plot(A[:,0], A[:,1], 'o')
-# plt.show()
+plt.show()
 # 4.2 线性回归方程的拟合线
 # （1）创建浮点型矩阵
 B = torch.tensor([[1.0, 1], [3, 1]])
