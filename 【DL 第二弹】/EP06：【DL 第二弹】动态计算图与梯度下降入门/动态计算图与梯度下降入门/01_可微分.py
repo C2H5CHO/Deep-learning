@@ -3,7 +3,7 @@ import torch
 # 1. requires_grad 可微分性
 # 构建可微分张量
 t1 = torch.tensor(1., requires_grad=True)
-print(f't1：{t1}')
+print(t1)
 
 # 构建函数关系
 y1 = t1**2
