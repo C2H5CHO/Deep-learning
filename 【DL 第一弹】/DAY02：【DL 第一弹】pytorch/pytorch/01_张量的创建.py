@@ -61,4 +61,37 @@ data11 = torch.randn(2, 3)
 print(f"data11：{data11}")
 
 print('--'*50)
-# 6.
+# 6. torch.zeros、torch.zeros_like 创建全0张量
+data12 = torch.zeros(2, 3)
+print(f"data12：{data12}")
+data12_ = torch.zeros_like(data12)
+print(f"data13：{data12_}")
+
+print('--'*50)
+# 7. torch.ones、torch.ones_like 创建全1张量
+data13 = torch.ones(2, 3)
+print(f"data13：{data13}")
+data13_ = torch.ones_like(data13)
+print(f"data13_：{data13_}")
+
+print('--'*50)
+# 8. torch.full，torch.full_like 创建全指定值张量
+data14 = torch.full([2, 3], 10)
+print(f"data14：{data14}")
+data14_ = torch.full_like(data14, 999)
+print(f"data14_：{data14_}")
+
+print('--'*50)
+# 9. torch.type(torch.DoubleTensor)
+data15 = torch.full([2, 3], 100)
+print(f"data15的类型：{data15.type()}")
+data15_D = data15.type(torch.DoubleTensor)
+print(f"data15_D的类型：{data15_D.type()}")
+data15_D1 = data15.double()
+print(f"data15_D1的类型：{data15_D1.type()}")
+data15_S = data15.short()
+print(f"data15_S的类型：{data15_S.type()}")
+data15_L = data15.long()
+print(f"data15_L的类型：{data15_L.type()}")
+data15_I = data15.int()
+print(f"data15_I的类型：{data15_I.type()}")
