@@ -24,4 +24,26 @@ print(f"data2：{data2}")
 
 print('--'*50)
 # 2. Numpy数组转换为张量
-## 2.1
+## 2.1 torch.from_numpy 共享内存
+data3 = np.array([2, 3, 4])
+data3_torch = torch.from_numpy(data3)
+print(f"data3：{data3}")
+print(f"data3_torch：{data3_torch}")
+
+data3_torch[0] = 100
+print(f"data3_torch：{data3_torch}")
+print(f"data3：{data3}")
+## 2.2 torch.tensor 不共享内存
+data4 = np.array([2, 3, 4])
+data4_torch = torch.tensor(data4)
+
+data4_torch[0] = 100
+print(f"data4_torch：{data4_torch}")
+print(f"data4：{data4}")
+
+print('--'*50)
+# 3. 标量张量和数字转换
+data5 = torch.tensor(5)
+print(f"data5：{data5.item()}")
+data5_ = torch.tensor([5, ])
+print(f"data5_：{data5_.item()}")
