@@ -40,3 +40,25 @@ data8_F = torch.FloatTensor([2.5, 3.7])
 print(f"data8_F：{data8_F}")
 data8_D = torch.DoubleTensor([2.5, 3.7])
 print(f"data8_D：{data8_D}")
+
+print('--'*50)
+# 4. torch.arange、torch.linspace 创建线性张量
+# 4.1 torch.arange(start, end, step)
+data9 = torch.arange(0, 10, 2)
+print(f"data9：{data9}")
+# 4.2 torch.linspace(start, end, steps)
+data10 = torch.linspace(0, 9, 10)
+print(f"data10：{data10}")
+
+print('--'*50)
+# 5. torch.random.initial_seed、torch.random.manual_seed 创建随机数种子
+data10 = torch.randn(2, 3)
+print(f"data10：{data10}")
+initial_seed = torch.random.initial_seed()
+print(f"随机数种子：{initial_seed}")
+torch.random.manual_seed(seed=initial_seed)
+data11 = torch.randn(2, 3)
+print(f"data11：{data11}")
+
+print('--'*50)
+# 6.
