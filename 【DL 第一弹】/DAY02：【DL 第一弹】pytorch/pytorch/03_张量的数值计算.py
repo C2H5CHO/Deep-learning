@@ -25,5 +25,34 @@ print(f"data1_div：{data1_div}")
 data1_neg = data1.neg()
 print(f"data1_neg：{data1_neg}")
 
+print('--'*50)
 # 2. 点乘运算
-data2 = torch.tensor([[1, 2], [3, 4]])
+torch.random.manual_seed(42)
+data2 = torch.randint(0, 10, [3, 4])
+print(f"data2：{data2}")
+
+torch.random.manual_seed(43)
+data3 = torch.randint(0, 10, [3, 4])
+print(f"data3：{data3}")
+print(f"data2*data3：{torch.mul(data2, data3)}")
+print(f"data2*data3：{data2*data3}")
+
+# 1×. 维度不匹配
+# torch.random.manual_seed(44)
+# data4 = torch.randint(0, 10, [4, 4])
+# print(f"data4：{data4}")
+# print(f"data2*data4：{torch.mul(data2, data4)}")
+# # RuntimeError: The size of tensor a (3) must match the size of tensor b (4) at non-singleton dimension 0
+
+print('--'*50)
+# 3. 矩阵乘法
+torch.random.manual_seed(42)
+data5 = torch.randint(0, 10, [3, 4])
+print(f"data5：{data5}")
+
+torch.random.manual_seed(43)
+data6 = torch.randint(0, 10, [4, 5])
+print(f"data6：{data6}")
+print(f"data5@data6：{torch.matmul(data5, data6)}")
+print(f"data5@data6：{data5@data6}")
+
