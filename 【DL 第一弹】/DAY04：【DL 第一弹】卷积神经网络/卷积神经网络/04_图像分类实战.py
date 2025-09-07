@@ -57,14 +57,44 @@ def train():
     # 优化器
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.99))
     epochs = 10
+    loss_mean = []
     for epoch in range(epochs):
         dataloader = DataLoader(train_dataset, batch_size=2, shuffle=True)
+        loss_sum = 0
+        samples = 0.1
         for x, y in dataloader:
             y_pred = model(x)
             loss = cri(y_pred, y)
+            loss_sum += loss.item()
+            samples += 1
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            # break
+        loss_mean.append(loss_sum/samples)
+        print(f"{loss_sum/samples}")
+    print(f"{loss_mean}")
+
     torch.save(model.state_dict(), 'imgClassification_model.pth')
 
+train()
+
+print('--'*50)
 # 4. 模型预测
+def test():
+    dataloader = DataLoader(test_dataset,batch_size=8,shuffle=False)
+    # 加载模型
+    model.load_state_dict(torch.load('imgClassification_model.pth'))
+
+    # 遍历数据进行预测
+    correct=0
+    samples = 0
+    for x,y in dataloader:
+        y_predict = model(x)
+        correct += (torch.argmax(y_predict,dim=-1)==y).sum()
+        samples += len(y)
+    acc = correct/(samples+0.000001)
+    print(acc)
+
+test()
+
