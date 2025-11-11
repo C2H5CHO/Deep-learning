@@ -26,3 +26,21 @@ conv2 = nn.Conv2d(
 data_conv2 = conv2(data_conv1)
 print(f"第二层卷积层的形状: {data_conv2.shape}")
 
+print('--'*50)
+data2 = torch.ones(size=(10, 3, 28, 28))
+conv1_ = nn.Conv2d(in_channels=3, out_channels=6, kernel_size=3)
+conv2_ = nn.Conv2d(in_channels=6, out_channels=10, kernel_size=3)
+conv3_ = nn.Conv2d(in_channels=10, out_channels=16, kernel_size=5, stride=2, padding=1)
+"""
+    - in_channels=10: 输入通道数，来自上一层conv2_的输出
+    - out_channels=16: 输出通道数，增加特征图的深度
+    - kernel_size=5: 5x5卷积核，比3x3更大的感受野
+    - stride=2: 步长为2，实现2倍下采样，减小特征图尺寸
+    - padding=1: 填充1像素，保持边界信息完整性
+
+特征图尺寸变化计算：
+假设输入特征图尺寸为 H×W
+输出尺寸 = (H + 2×padding - kernel_size) / stride + 1
+例如：输入28×28 → 输出(28+2×1-5)/2+1 = 13×13
+"""
+conv4_ = nn.Conv2d(in_channels=16, out_channels=3, kernel_size=5, stride=3, padding=2)
