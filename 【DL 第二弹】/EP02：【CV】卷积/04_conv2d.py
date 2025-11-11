@@ -47,6 +47,7 @@ data2_conv2_参数说明：
     - channels=out_channels=10
     - height=width=(26+2×0-3+1)=24
 """
+
 conv3_ = nn.Conv2d(in_channels=10, out_channels=16, kernel_size=5, stride=2, padding=1)
 """
 conv3_参数说明：
@@ -62,6 +63,24 @@ print(f"第三层卷积层的形状: {data2_conv3.shape}")
 data2_conv3_参数说明：
     - batch_size=10
     - channels=out_channels=16
-    - height=width=(24+2×1-5)/2+1 = 12
+    - height=width=(24+2×1-5)/2+1 = 11.5 = 11（向下取整）
 """
-conv4_ = nn.Conv2d(in_channels=16, out_channels=3, kernel_size=5, stride=3, padding=2)
+
+conv4_ = nn.Conv2d(in_channels=16, out_channels=3, kernel_size=5, stride=(2, 3), padding=2)
+"""
+conv4_参数说明：
+    - in_channels=16: 输入通道数，来自上一层conv3_的输出
+    - out_channels=3: 输出通道数，对应3个类别
+    - kernel_size=5: 5x5卷积核，提取特征
+    - stride=(2, 3): 垂直方向步长为2，水平方向步长为3，实现2倍垂直下采样，3倍水平下采样
+    - padding=2: 填充2像素，保持边界信息完整性
+"""
+data2_conv4 = conv4_(data2_conv3)
+print(f"第四层卷积层的形状: {data2_conv4.shape}")
+"""
+data2_conv4_参数说明：
+    - batch_size=10
+    - channels=out_channels=3
+    - height=(11+2×2-5)/2+1 = 6
+    - width=(11+2×2-5)/3+1 = 4.333333 = 4（向下取整）
+"""
