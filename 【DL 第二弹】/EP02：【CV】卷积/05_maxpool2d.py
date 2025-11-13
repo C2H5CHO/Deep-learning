@@ -29,10 +29,10 @@ pool1 = nn.MaxPool2d(
 data_pool1 = pool1(data_conv2)
 print(f"第一层池化层的形状: {data_pool1.shape}")
 
-max_pool1 = nn.MaxPool2d(2) # 表示输出特征图的大小为7x7
+max_pool1 = nn.AdaptiveMaxPool2d(7) # 表示输出特征图的大小为7x7
 data_max_pool1 = max_pool1(data_conv2)
 print(f"第一层最大池化层的形状: {data_max_pool1.shape}")
 
-avg_pool1 = nn.AvgPool2d(2) # 表示输出特征图的大小为7x7
+avg_pool1 = nn.AdaptiveAvgPool2d(output_size=(3, 7)) # 表示输出特征图的大小为3x7
 data_avg_pool1 = avg_pool1(data_conv2)
 print(f"第一层平均池化层的形状: {data_avg_pool1.shape}")
