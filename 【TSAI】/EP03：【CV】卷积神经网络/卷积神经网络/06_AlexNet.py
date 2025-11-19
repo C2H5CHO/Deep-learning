@@ -10,18 +10,24 @@ class Model(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.conv1 = nn.Conv2d(3, 39, kernel_size=11, stride=4) # 使用11×11卷积核和4步长快速降低特征图的尺寸
+        # 使用较大的卷积核和较长的步长快速降低特征图的尺寸，并使用较多的通道数弥补降低尺寸所带来的数据损失
+        self.conv1 = nn.Conv2d(3, 96, kernel_size=11, stride=4)
         self.pool1 = nn.MaxPool2d(kernel_size=3, stride=2)
 
+        # 进一步扩大通道数提取数据特征
         self.conv2 = nn.Conv2d(96, 256, kernel_size=5, padding=2) # 使用5×5卷积核和2像素填充
-        self.pool2 = nn.MaxPool2d()
+        self.pool2 = nn.MaxPool2d(kernel_size=3, stride=2)
 
-        self.conv3 = nn.Conv2d()
-        self.conv4 = nn.Conv2d()
-        self.conv5 = nn.Conv2d()
-        self.pool3 = nn.MaxPool2d()
+        # 连续使用多个卷积层提取更复杂的特征
+        # kernel_size=3, padding=1/kernel_size=5, padding=2 保持特征图的尺寸不变
+        self.conv3 = nn.Conv2d(256, 384, kernel_size=3, padding=1)
+        self.conv4 = nn.Conv2d(384, 384, kernel_size=3, padding=1)
+        self.conv5 = nn.Conv2d(384, 256, kernel_size=3, padding=1)
+        self.pool3 = nn.MaxPool2d(kernel_size=3, stride=2)
 
-        self.fc1 = nn.Linear()
-        self.fc2 = nn.Linear()
-        self.fc3 = nn.Linear()
+        # 使用全连接层进行分类
+        self.fc1 = nn.Linear(256 * 6 * 6, 4096)
+        self.fc2 = nn.Linear(4096, 4096)
+        self.fc3 = nn.Linear(4096, 1000)
+
 
