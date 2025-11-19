@@ -30,4 +30,25 @@ class Model(nn.Module):
         self.fc2 = nn.Linear(4096, 4096)
         self.fc3 = nn.Linear(4096, 1000)
 
+    def forward(self, x):
+        x = F.relu(self.conv1(x)) # 96个11×11卷积核提取特征
+        x = self.pool1(x) # 3×3最大池化层，步长为2
+
+        x = F.relu(self.conv2(x)) # 256个5×5卷积核提取特征
+        x = self.pool2(x) # 3×3最大池化层，步长为2
+
+        x = F.relu(self.conv3(x)) # 384个3×3卷积核提取特征
+        x = F.relu(self.conv4(x)) # 384个3×3卷积核提取特征
+        x = F.relu(self.conv5(x)) # 256个3×3卷积核提取特征
+        x = self.pool3(x) # 3×3最大池化层，步长为2
+
+        x = x.view(-1, 256 * 6 * 6) # 展平特征图
+
+        x = F.dropout(x, p=0.5) # Dropout层，防止过拟合
+        x = F.relu(F.dropout(self.fc1(x), p=0.5)) # 4096个神经元全连接层，Dropout层，防止过拟合
+        x = F.relu(self.fc2(x)) # 4096个神经元全连接层，ReLU激活函数
+        output = F.softmax(self.fc3(x), dim=1) # 1000个神经元全连接层，Softmax激活函数
+
+        return output
+
 
