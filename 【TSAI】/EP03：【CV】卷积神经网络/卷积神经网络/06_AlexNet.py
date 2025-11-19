@@ -1,11 +1,8 @@
 import torch
 from torch import nn
 from torch.nn import functional as F
+from torchinfo import summary
 
-# 1. 输入数据
-data = torch.ones(size=(10, 3, 227, 227))
-
-# 2.
 class Model(nn.Module):
     def __init__(self):
         super().__init__()
@@ -51,4 +48,9 @@ class Model(nn.Module):
 
         return output
 
+if __name__ == '__main__':
+    data = torch.ones(size=(10, 3, 227, 227))
+    alexnet = Model()
+    print(alexnet(data))
+    summary(alexnet, input_size=data.size())
 
