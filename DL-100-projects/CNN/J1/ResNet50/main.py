@@ -69,4 +69,7 @@ for X, y in test_loader:
 """
 
 # 5. 定义ResNet50模型
+from ResNet50 import ResNet50
+
+resnet50 = ResNet50().to(device)
 

@@ -50,8 +50,11 @@ class ResNet50(nn.Module):
         x = self.fc(x)
         return x
 
+"""
 if __name__ == '__main__':
     model = ResNet50().to('cuda')
     print(model)
     print('--'*50)
     summary(model, (3, 224, 224))
+"""
+
