@@ -70,4 +70,3 @@ for X, y in test_loader:
 
 # 5. 定义ResNet50模型
 
-
