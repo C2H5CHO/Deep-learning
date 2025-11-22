@@ -73,3 +73,46 @@ from ResNet50 import ResNet50
 
 resnet50 = ResNet50().to(device)
 
+# 6. 训练模型
+import copy
+from solve import train, test
+
+# (1) 定义损失函数和优化器
+loss_fn = nn.CrossEntropyLoss() # 作用：定义交叉熵损失函数
+optimizer = torch.optim.Adam(resnet50.parameters(), lr=1e-4) # 作用：定义Adam优化器，学习率为1e-4
+
+# (2) 训练模型
+epochs = 3
+
+train_loss = []
+train_acc = []
+test_loss = []
+test_acc = []
+best_acc = 0.0
+
+for epoch in range(epochs):
+    resnet50.train()
+    epoch_train_acc, epoch_train_loss = train(train_loader, resnet50, loss_fn, optimizer, device)
+
+    resnet50.eval()
+    epoch_test_acc, epoch_test_loss = test(test_loader, resnet50, loss_fn, device)
+
+    if epoch_test_acc > best_acc:
+        best_acc = epoch_test_acc
+        best_model = copy.deepcopy(resnet50)
+
+    train_acc.append(epoch_train_acc)
+    train_loss.append(epoch_train_loss)
+    test_acc.append(epoch_test_acc)
+    test_loss.append(epoch_test_loss)
+
+    lr = optimizer.state_dict()['param_groups'][0]['lr'] # 作用：获取当前学习率
+    template = (f"Epoch: {epoch+1:2d}, Train Loss: {epoch_train_loss:.4f}, Train Acc: {epoch_train_acc*100:.1f}%, Test Loss: {epoch_test_loss:.4f}, Test Acc: {epoch_test_acc*100:.1f}%, LR: {lr:.2E}")
+    print(template)
+
+# (3) 保存模型
+PATH = './model/resnet50.pth'
+os.makedirs(os.path.dirname(PATH), exist_ok=True) # 作用：创建目录，如果目录已经存在，则不会报错
+torch.save(best_model.state_dict(), PATH)
+print("Model saved at", PATH)
+

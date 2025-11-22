@@ -80,4 +80,47 @@ class ConvBlock(nn.Module):
         x = self.relu(x)
         return x
 
+# 4. 定义训练函数
+def train(dataloader, model, loss_fn, optimizer, device):
+    size = len(dataloader.dataset)  # 作用：获取训练集的样本数量
+    num_batches = len(dataloader) # 作用：获取训练集的批次数量
+    train_loss, train_acc = 0, 0 # 作用：初始化训练损失和训练准确率为0
+
+    for x, y in dataloader:
+        x, y = x.to(device), y.to(device) # 作用：将输入数据和标签数据移动到GPU上
+        pred = model(x) # 作用：将输入数据x输入到模型中，得到预测结果pred
+        loss = loss_fn(pred, y) # 作用：计算预测结果pred与真实标签y之间的损失
+
+        # 反向传播
+        optimizer.zero_grad() # 作用：将优化器的梯度清零
+        loss.backward() # 作用：计算损失函数的梯度
+        optimizer.step() # 作用：根据计算得到的梯度，更新模型的参数
+
+        train_acc += (pred.argmax(1) == y).type(torch.float).sum().item() # 作用：计算当前批次的准确率，并累加到train_acc中
+        train_loss += loss.item() # 作用：将当前批次的损失值累加到train_loss中
+
+    train_acc /= size # 作用：计算训练集的平均准确率
+    train_loss /= num_batches # 作用：计算训练集的平均损失
+
+    return train_loss, train_acc
+
+# 5. 定义测试函数
+def test(dataloader, model, loss_fn, device):
+    size = len(dataloader.dataset) # 作用：获取测试集的样本数量
+    num_batches = len(dataloader) # 作用：获取测试集的批次数量
+    test_loss, test_acc = 0, 0 # 作用：初始化测试损失和测试准确率为0
+
+    with torch.no_grad():
+        for imgs, target in dataloader:
+            imgs, target = imgs.to(device), target.to(device) # 作用：将输入数据和标签数据移动到GPU上
+            pred = model(imgs) # 作用：将输入数据imgs输入到模型中，得到预测结果pred
+            loss = loss_fn(pred, target) # 作用：计算预测结果pred与真实标签targets之间的损失
+
+            test_loss += loss.item() # 作用：将当前批次的损失值累加到test_loss中
+            test_acc += (pred.argmax(1) == target).type(torch.float).sum().item() # 作用：计算当前批次的准确率，并累加到test_acc中
+
+    test_acc /= size # 作用：计算测试集的平均准确率
+    test_loss /= num_batches # 作用：计算测试集的平均损失
+
+    return test_loss, test_acc
 
