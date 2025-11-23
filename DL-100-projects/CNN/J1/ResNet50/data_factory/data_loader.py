@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 
-def visualize_images(data_path, rows=3, cols=8, figsize=(16, 9)):
+def visualize_images(data_path, rows=3, cols=8, figsize=(25, 9)):
     """
     可视化指定文件夹中的图片
     
@@ -11,7 +11,7 @@ def visualize_images(data_path, rows=3, cols=8, figsize=(16, 9)):
         data_path (str): 包含图片的文件夹路径
         rows (int): 子图行数，默认为3
         cols (int): 子图列数，默认为8
-        figsize (tuple): 图形大小，默认为(16, 9)
+        figsize (tuple): 图形大小，默认为(25, 9)
     
     Returns:
         fig: matplotlib的Figure对象

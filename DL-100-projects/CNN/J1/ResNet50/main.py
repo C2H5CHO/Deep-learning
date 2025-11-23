@@ -28,7 +28,7 @@ train_dataset, test_dataset = torch.utils.data.random_split(data_total, [train_s
 # print(test_dataset)
 
 # (2) 定义批次大小
-batch_size = 3
+batch_size = 10
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True) # 作用：将训练集划分为批次，并打乱顺序
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False) # 作用：将测试集划分为批次，但不打乱顺序
 
@@ -54,7 +54,7 @@ loss_fn = nn.CrossEntropyLoss() # 作用：定义交叉熵损失函数
 optimizer = torch.optim.Adam(resnet50.parameters(), lr=1e-4) # 作用：定义Adam优化器，学习率为1e-4
 
 # (2) 训练模型
-epochs = 3
+epochs = 20
 
 train_loss = []
 train_acc = []
@@ -64,10 +64,10 @@ best_acc = 0.0
 
 for epoch in range(epochs):
     resnet50.train()
-    epoch_train_acc, epoch_train_loss = train(train_loader, resnet50, loss_fn, optimizer, device)
+    epoch_train_loss, epoch_train_acc = train(train_loader, resnet50, loss_fn, optimizer, device)
 
     resnet50.eval()
-    epoch_test_acc, epoch_test_loss = test(test_loader, resnet50, loss_fn, device)
+    epoch_test_loss, epoch_test_acc = test(test_loader, resnet50, loss_fn, device)
 
     if epoch_test_acc > best_acc:
         best_acc = epoch_test_acc
@@ -118,6 +118,6 @@ plt.show()
 
 # 8. 测试模型
 best_model.load_state_dict(torch.load(PATH, map_location=device))
-epoch_test_acc, epoch_test_loss = test(test_loader, best_model, loss_fn, device)
+epoch_test_loss, epoch_test_acc = test(test_loader, best_model, loss_fn, device)
 print(f"Test Accuracy: {epoch_test_acc*100:.1f}%, Test Loss: {epoch_test_loss:.4f}")
 
