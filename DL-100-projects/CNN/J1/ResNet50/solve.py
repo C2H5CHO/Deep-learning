@@ -9,6 +9,17 @@ def autopad(k, p=None):
 
 # 2. 定义残差块类
 class IdentityBlock(nn.Module):
+    """
+    定义残差块类
+
+    Args:
+        in_channel: 输入通道数
+        kernel_size: 卷积核大小
+        filters: 卷积核个数列表
+
+    Returns:
+        x: 输出特征图
+    """
     def __init__(self, in_channel, kernel_size, filters):
        super(IdentityBlock, self).__init__()
        filters1, filters2, filters3 = filters # 作用：将filters列表中的元素分别赋值给filters1、filters2、filters3
@@ -43,6 +54,19 @@ class IdentityBlock(nn.Module):
 
 # 3. 定义卷积块类
 class ConvBlock(nn.Module):
+    """
+    定义卷积块类
+
+    Args:
+        in_channel: 输入通道数
+        kernel_size: 卷积核大小
+        filters: 卷积核个数列表
+        stride: 步长
+
+    Returns:
+        x: 输出特征图
+    """
+
     def __init__(self, in_channel, kernel_size, filters, stride=2):
         super(ConvBlock, self).__init__()
         filters1, filters2, filters3 = filters # 作用：将filters列表中的元素分别赋值给filters1、filters2、filters3
@@ -82,6 +106,21 @@ class ConvBlock(nn.Module):
 
 # 4. 定义训练函数
 def train(dataloader, model, loss_fn, optimizer, device):
+    """
+    定义训练函数
+
+    Args:
+        dataloader: 训练数据集
+        model: 模型
+        loss_fn: 损失函数
+        optimizer: 优化器
+        device: 计算设备
+
+    Returns:
+        train_loss: 训练损失
+        train_acc: 训练准确率
+    """
+
     size = len(dataloader.dataset)  # 作用：获取训练集的样本数量
     num_batches = len(dataloader) # 作用：获取训练集的批次数量
     train_loss, train_acc = 0, 0 # 作用：初始化训练损失和训练准确率为0
@@ -106,6 +145,20 @@ def train(dataloader, model, loss_fn, optimizer, device):
 
 # 5. 定义测试函数
 def test(dataloader, model, loss_fn, device):
+    """
+    定义测试函数
+
+    Args:
+        dataloader: 测试数据集
+        model: 模型
+        loss_fn: 损失函数
+        device: 计算设备
+
+    Returns:
+         test_loss: 测试损失
+         test_acc: 测试准确率
+    """
+
     size = len(dataloader.dataset) # 作用：获取测试集的样本数量
     num_batches = len(dataloader) # 作用：获取测试集的批次数量
     test_loss, test_acc = 0, 0 # 作用：初始化测试损失和测试准确率为0
